@@ -1,9 +1,9 @@
-const UserController = require('../controllers').User;
+var express = require('express');
+var router = express.Router();
 
-module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
-  }));
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
 
-  app.post('/api/user', UserController.create);
-};
+module.exports = router;
