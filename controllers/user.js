@@ -1,5 +1,5 @@
 const User=require('../models/').users;
-
+const { check, validationResult } = require('express-validator/check');
 module.exports = {
     create(req, res) {
       console.log(req.body);
