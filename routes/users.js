@@ -5,6 +5,8 @@ const userController=require('../controllers').User
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-router.post('/login',userController.create)
+router.post('/login',(req,res,next)=>{
+  userController.create(req,res,next);
+})
 
 module.exports = router;
