@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var sizeRouter=require('./routes/size');
 var supplierRouter=require('./routes/supplier');
+var categoryRouter=require('./routes/category');
+var brandRouter=require('./routes/brand');
 var app = express();
 
 // view engine setup
@@ -24,6 +26,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/size',sizeRouter);
 app.use('/supplier',supplierRouter);
+app.use('/category',categoryRouter);
+app.use('/brand',brandRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
