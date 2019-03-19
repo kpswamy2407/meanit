@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
+    code:{
+      type: DataTypes.STRING,
+    },
     isActive:{
       type: DataTypes.BOOLEAN, 
       allowNull: false,

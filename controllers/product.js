@@ -1,14 +1,56 @@
 const Product=require('../models').products;
+const Category=require('../models').categories;
+const Brand=require('../models').brands;
+const Supplier=require('../models').suppliers;
+const Size=require('../models').sizes;
 const Op=require('sequelize').Op;
 module.exports = {
-    create(req, res) {
-      return Product
+    async create(req, res) {
+        var categoryCode=await Category.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.categoryId
+                }
+            }
+        }).then(category=>{
+            return category.code
+        });
+        var brandCode= await Brand.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.brandId
+                }
+            }
+        }).then(brand=>{
+            return brand.code;
+        })
+        var supplierCode=await Supplier.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.supplierId
+                }
+            }
+        }).then(supplier=>{
+            return supplier.code;
+        });
+        var sizeCode=await Size.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.sizeId
+                }
+            }
+        }).then(size=>{
+            return size.name;
+        });
+        var code=this.generateProductCode(categoryCode,brandCode,sizeCode,supplierCode);
+        
+      /* return Product
       .create({
         name: req.body.name,
       })
       .then(brand => res.status(200).json({brand:brand,message:"Product created successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
-      
+       */
     },
     update(req,res){
       return Product.
@@ -50,5 +92,8 @@ module.exports = {
         }
       }).then(result=>res.status(200).json({product:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
+    },
+    generateProductCode(category,brand,size,supplier){
+        return category+"_"+brand+"_"+size+"_"+supplier
     }
 };

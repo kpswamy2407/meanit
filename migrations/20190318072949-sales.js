@@ -15,7 +15,7 @@ module.exports = {
       primaryKey: true,
       autoIncrement: true,
     },
-    proudctId:{
+    productId:{
       type: Sequelize.INTEGER,
       references: {
         model: 'products', // name of Target model

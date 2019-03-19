@@ -30,6 +30,15 @@ module.exports = {
       onUpdate: 'SET NULL',
       onDelete: 'CASCADE',
     },
+    brandId:{
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'brands', // name of Target model
+        key: 'id', // key in Target model that we're referencing
+      },
+      onUpdate: 'SET NULL',
+      onDelete: 'CASCADE',
+    },
     sizeId:{
       type: Sequelize.INTEGER,
       references: {

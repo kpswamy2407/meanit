@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator/check');
 var supplierController=require('../controllers').Supplier;
 router.post('/create',[
   check('name').isString().isLength({min:1}),
+  check('code').isString().isLength({min:1}),
   ],(req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

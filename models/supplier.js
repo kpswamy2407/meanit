@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
+    code:{
+      type: DataTypes.STRING,
+    },
     phone:{
         type: DataTypes.STRING
       },

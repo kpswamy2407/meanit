@@ -3,7 +3,13 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 var productController=require('../controllers').Product;
 router.post('/create',[
-  check('name').isString().isLength({min:1}),
+    check('supplierId').isNumeric().withMessage("Please select valid supplier"),
+    check('categoryId').isNumeric().withMessage("Please select valid category"),
+    check('brandId').isNumeric().withMessage("Please select valid brand"),
+    check('sizeId').isNumeric().withMessage("Please select valid size"),
+    check('buyingPrice').isNumeric().withMessage("Please enter buying price"),
+    check('sellingPrice').isNumeric().withMessage("Please enter selling price"),
+    check('noOfItems').isNumeric().withMessage("Please enter quantity"),
   ],(req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
