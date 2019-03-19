@@ -44,13 +44,20 @@ module.exports = {
         });
         var code=this.generateProductCode(categoryCode,brandCode,sizeCode,supplierCode);
         
-      /* return Product
+      return Product
       .create({
-        name: req.body.name,
+        code: code,
+        supplierId:req.body.supplierId,
+        brandId:req.body.brandId,
+        sizeId:req.body.sizeId,
+        categoryId:req.body.categoryId,
+        buyingPrice:req.body.buyingPrice,
+        sellingPrice:req.body.sellingPrice,
+        noOfItems:req.body.noOfItems
       })
-      .then(brand => res.status(200).json({brand:brand,message:"Product created successfully!",status:200}))
+      .then(product => res.status(200).json({product:product,message:"Product created successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
-       */
+      
     },
     update(req,res){
       return Product.
