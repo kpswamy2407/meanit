@@ -5,6 +5,8 @@ module.exports = {
       return Customer
       .create({
         name: req.body.name,
+        mobile: req.body.mobile,
+        address: req.body.address
       })
       .then(customer => res.status(200).json({customer:customer,message:"Customer created successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
@@ -13,7 +15,9 @@ module.exports = {
     update(req,res){
       return Customer.
         update({
-            name:req.body.name,
+            name: req.body.name,
+            mobile: req.body.mobile,
+            address: req.body.address,
             isActive:req.body.isActive
         },
         {
@@ -50,5 +54,21 @@ module.exports = {
         }
       }).then(result=>res.status(200).json({customer:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
+    },
+    FindOrCreateCustomer(req,res){
+         Customer.findOrCreate({
+            where:{
+                mobile:{
+                    [Op.eq]:req.body.mobile
+                }
+            },
+            defaults:{
+                name:req.body.name,
+                mobile:req.body.mobile,
+                address:req.body.address
+            }
+        }).then(customer=>{
+            return customer.id;    
+        })
     }
 };

@@ -1,20 +1,44 @@
 const Sale=require('../models').sales;
+const Product=require('../models').products;
 const Op=require('sequelize').Op;
+const CustomerController = require('./customer')
 module.exports = {
-    create(req, res) {
-      return Sale
+    async create(req, res) {
+        var customerId= await CustomerController.FindOrCreateCustomer(req,res);
+    return Sale
       .create({
-        name: req.body.name,
+        customerId: customerId,
+        productId:req.body.productId,
+        sellingPrice:req.body.sellingPrice,
+        quantity:req.body.quantity,
+        amount:req.body.amount,
+        discount:req.body.discount,
+        totalAmount:req.body.totalAmount
       })
-      .then(customer => res.status(200).json({customer:customer,message:"Sale created successfully!",status:200}))
-      .catch(error => res.status(201).json({error:error.message,status:201}));
+      .then(sale =>{
+        Product.findByPk(sale.productId).then(product=>{
+            return product.decrement('noOfItems',{by:sale.quantity});
+        }).then(product=>{
+            return product.increment('noOfItemsLeft',{by:sale.quantity})
+           
+        }).then(result=>{
+            res.status(200).json({sale:sale,message:"Sale created successfully!",status:200})
+        })
+        
+      }).catch(error => res.status(201).json({error:error.message,status:201}));
       
     },
     update(req,res){
+        var customerId=  CustomerController.FindOrCreateCustomer(req,res);
       return Sale.
         update({
-            name:req.body.name,
-            isActive:req.body.isActive
+            customerId: customerId,
+            productId:req.body.productId,
+            sellingPrice:req.body.sellingPrice,
+            quantity:req.body.quantity,
+            amount:req.body.amount,
+            discount:req.body.discount,
+            totalAmount:req.body.totalAmount
         },
         {
           where:{
