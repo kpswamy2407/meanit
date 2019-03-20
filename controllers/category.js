@@ -5,6 +5,7 @@ module.exports = {
       return Category
       .create({
         name: req.body.name,
+        code: req.body.code,
       })
       .then(category => res.status(200).json({category:category,message:"Category created successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
@@ -14,6 +15,7 @@ module.exports = {
       return Category.
         update({
             name:req.body.name,
+            code: req.body.code,
             isActive:req.body.isActive
         },
         {
@@ -37,7 +39,7 @@ module.exports = {
     },
     getAll(req,res){
       return Category.findAll({
-        attributes: ['id','name','isActive']
+        attributes: ['id','name','code','isActive']
       }).then(result=>res.status(200).json({categories:result,message:"Category updated successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },

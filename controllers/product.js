@@ -59,11 +59,54 @@ module.exports = {
       .catch(error => res.status(201).json({error:error.message,status:201}));
       
     },
-    update(req,res){
+    async update(req,res){
+        var categoryCode=await Category.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.categoryId
+                }
+            }
+        }).then(category=>{
+            return category.code
+        });
+        var brandCode= await Brand.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.brandId
+                }
+            }
+        }).then(brand=>{
+            return brand.code;
+        })
+        var supplierCode=await Supplier.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.supplierId
+                }
+            }
+        }).then(supplier=>{
+            return supplier.code;
+        });
+        var sizeCode=await Size.findOne({
+            where:{
+                id:{
+                    [Op.eq]:req.body.sizeId
+                }
+            }
+        }).then(size=>{
+            return size.name;
+        });
+        var code=this.generateProductCode(categoryCode,brandCode,sizeCode,supplierCode);
       return Product.
         update({
-            name:req.body.name,
-            isActive:req.body.isActive
+            code: code,
+            supplierId:req.body.supplierId,
+            brandId:req.body.brandId,
+            sizeId:req.body.sizeId,
+            categoryId:req.body.categoryId,
+            buyingPrice:req.body.buyingPrice,
+            sellingPrice:req.body.sellingPrice,
+            noOfItems:req.body.noOfItems
         },
         {
           where:{
@@ -85,9 +128,14 @@ module.exports = {
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
     getAll(req,res){
-      return Product.findAll({
-        attributes: ['id','name','isActive']
-      }).then(result=>res.status(200).json({products:result,message:"Product updated successfully!",status:200}))
+      return Product.findAndCountAll({
+        include:[
+            {model:Supplier,required:true,attributes:['id','name','code']},
+            {model:Category,required:true,attributes:['id','name','code']},
+            {model:Brand,required:true,attributes:['id','name','code']},
+            {model:Size,required:true,attributes:['id','name']}
+        ]
+        }).then(result=>res.status(200).json({products:result,message:"Product updated successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
     getProduct(req,res){

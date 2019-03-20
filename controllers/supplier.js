@@ -6,6 +6,7 @@ module.exports = {
       .create({
         name: req.body.name,
         phone: req.body.phone,
+        code: req.body.code,
         address:req.body.address
       })
       .then(supplier => res.status(200).json({supplier:supplier,message:"Supplier created successfully!",status:200}))
@@ -17,6 +18,7 @@ module.exports = {
         update({
             name:req.body.name,
             phone:req.body.phone,
+            code: req.body.code,
             address:req.body.address,
             isActive:req.body.isActive
         },
@@ -41,7 +43,7 @@ module.exports = {
     },
     getAll(req,res){
       return Supplier.findAll({
-        attributes: ['id','name','isActive']
+        attributes: ['id','name','code','isActive']
       }).then(result=>res.status(200).json({suppliers:result,message:"Size updated successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },

@@ -14,6 +14,15 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'SET NULL',
         onDelete: 'CASCADE',
       },
+      brandId:{
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'brands', // name of Target model
+          key: 'id', // key in Target model that we're referencing
+        },
+        onUpdate: 'SET NULL',
+        onDelete: 'CASCADE',
+      },
       categoryId:{
         type: DataTypes.INTEGER,
         references: {
@@ -49,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     product.belongsTo(models.categories)
     product.belongsTo(models.sizes)
     product.belongsTo(models.brands)
+    product.belongsTo(models.suppliers)
     //product.hasMany(models.sales)
 
   };
