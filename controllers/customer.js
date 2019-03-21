@@ -55,20 +55,18 @@ module.exports = {
       }).then(result=>res.status(200).json({customer:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
-    FindOrCreateCustomer(req,res){
-         Customer.findOrCreate({
+    FindOrCreateCustomer(name,mobile,address){
+         return Customer.findOrCreate({
             where:{
                 mobile:{
-                    [Op.eq]:req.body.mobile
+                    [Op.eq]:mobile
                 }
             },
             defaults:{
-                name:req.body.name,
-                mobile:req.body.mobile,
-                address:req.body.address
+                name:name,
+                mobile:mobile,
+                address:address
             }
-        }).then(customer=>{
-            return customer.id;    
         })
     }
 };
