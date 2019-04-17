@@ -2,7 +2,7 @@ const Category=require('../models').categories;
 const Op=require('sequelize').Op;
 module.exports = {
     create(req, res) {
-      return Category
+     return Category
       .create({
         name: req.body.name,
         code: req.body.code,
