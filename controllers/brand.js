@@ -40,7 +40,7 @@ module.exports = {
     getAll(req,res){
       return Brand.findAll({
         attributes: ['id','name','code','isActive']
-      }).then(result=>res.status(200).json({categories:result,message:"Brand updated successfully!",status:200}))
+      }).then(result=>res.status(200).json({brands:result,message:"Brand updated successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
     getBrand(req,res){
