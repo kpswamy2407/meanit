@@ -128,7 +128,7 @@ module.exports = {
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
     getAll(req,res){
-      return Product.findAndCountAll({
+      return Product.findAll({
         include:[
             {model:Supplier,required:true,attributes:['id','name','code']},
             {model:Category,required:true,attributes:['id','name','code']},
