@@ -60,6 +60,8 @@ module.exports = {
       
     },
     async update(req,res){
+        var self=this;
+        console.log(req.body);
         var categoryCode=await Category.findOne({
             where:{
                 id:{
@@ -96,7 +98,9 @@ module.exports = {
         }).then(size=>{
             return size.name;
         });
-        var code=this.generateProductCode(categoryCode,brandCode,sizeCode,supplierCode);
+        var code=categoryCode+"_"+brandCode+"_"+sizeCode+"_"+supplierCode;
+
+       // console.log(code);
       return Product.
         update({
             code: code,
@@ -149,6 +153,7 @@ module.exports = {
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
     generateProductCode(category,brand,size,supplier){
+        console.log("Hllerehe")
         return category+"_"+brand+"_"+size+"_"+supplier
     }
 };
