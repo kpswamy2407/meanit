@@ -33,7 +33,7 @@ router.post('/login',[
       errors.array().forEach(error=>{
         errorMessages.push(error.msg);
       });
-      return res.status(422).json({ errors: errorMessages,status:201 });
+      return res.status(201).json({ errors: errorMessages,status:201 });
     }
     userController.login(req,res,next)
 });

@@ -18,6 +18,7 @@ router.post('/create',[
 router.post('/update/:id',customerController.update);
 router.get('/delete/:id',customerController.delete);
 router.get('/get/:id',customerController.getCustomer);
+router.get('/getbymobile/:mobile',customerController.getCustomerByMobile);
 router.get('/getall',customerController.getAll);
 
 module.exports = router;

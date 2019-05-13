@@ -55,6 +55,16 @@ module.exports = {
       }).then(result=>res.status(200).json({customer:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
+    getCustomerByMobile(req,res){
+       return Customer.findOne({
+        where:{
+          mobile:{
+            [Op.eq]:req.params.mobile
+          }
+        }
+      }).then(result=>res.status(200).json({customer:result,status:200}))
+      .catch(error => res.status(201).json({error:error.message,status:201}));
+    },
     FindOrCreateCustomer(name,mobile,address){
          return Customer.findOrCreate({
             where:{
