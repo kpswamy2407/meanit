@@ -16,15 +16,17 @@ module.exports = {
       
     },
     login(req,res){
+      var user;
       authHelper.getMd5(req.body.password).then(hashedPassword=>{
         return User.findOne({where:{username:req.body.username,password:hashedPassword}})
       }).then(user=>{
         if(!user){
           throw new Error("Invalid login")
         }
+        this.user=user;
         return authHelper.getJwtToken(user.email)
       }).then(token=>{
-        res.status(200).json({message:"User logged successfully!",token:token,status:200});
+        res.status(200).json({message:"User logged successfully!",user:this.user,token:token,status:200});
       }).catch(error=>res.status(201).json({error:error.message,status:201}));;
     },
   };
