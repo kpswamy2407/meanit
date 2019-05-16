@@ -152,6 +152,16 @@ module.exports = {
       }).then(result=>res.status(200).json({product:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     },
+    getProductByCode(req,res){
+        return Product.findOne({
+        where:{
+          code:{
+            [Op.eq]:req.params.code
+          }
+        }
+      }).then(result=>res.status(200).json({product:result,status:200}))
+      .catch(error => res.status(201).json({error:error.message,status:201}));
+    },
     generateProductCode(category,brand,size,supplier){
         console.log("Hllerehe")
         return category+"_"+brand+"_"+size+"_"+supplier
