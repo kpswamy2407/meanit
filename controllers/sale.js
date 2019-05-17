@@ -4,6 +4,8 @@ const Op=require('sequelize').Op;
 const CustomerController = require('./customer')
 module.exports = {
     async create(req, res) {
+      console.log(req.body);
+      return;
         var customerId= await CustomerController.FindOrCreateCustomer(req.body.name,req.body.mobile,req.body.address).spread(cust=>{
             return cust.id;
         });
