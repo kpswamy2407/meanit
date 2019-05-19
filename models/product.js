@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         unique:true,
     },
+    name:{
+        type: DataTypes.STRING
+    },
       supplierId:{
         type: DataTypes.INTEGER,
         references: {

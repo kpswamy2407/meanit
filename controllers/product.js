@@ -47,6 +47,7 @@ module.exports = {
       return Product
       .create({
         code: code,
+        name: req.body.name,
         supplierId:req.body.supplierId,
         brandId:req.body.brandId,
         sizeId:req.body.sizeId,
@@ -104,6 +105,7 @@ module.exports = {
       return Product.
         update({
             code: code,
+            name: req.body.name,
             supplierId:req.body.supplierId,
             brandId:req.body.brandId,
             sizeId:req.body.sizeId,

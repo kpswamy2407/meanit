@@ -78,12 +78,16 @@ module.exports = {
     },
     getSale(req,res){
       return Sale.findOne({
+        include:[
+            {model:Customer,required:true,attributes:['id','name','mobile']},
+            {model:SalesDetail,required:true,attributes:['productId','quantity','sellingPrice','amount','discount'],include: [Product]}
+        ],
         where:{
           id:{
             [Op.eq]:req.params.id
           }
         }
-      }).then(result=>res.status(200).json({customer:result,status:200}))
+      }).then(result=>res.status(200).json({sale:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
     }
 };
