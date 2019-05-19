@@ -1,5 +1,6 @@
 const md5=require('md5');
 const jwt=require('jsonwebtoken');
+const randomString=require('randomstring');
 module.exports={
     getMd5(str){
         return new Promise((reslove,reject)=>{
@@ -29,5 +30,21 @@ module.exports={
             })
         })
     }
-
+    ,
+    getRandomString(strLength){
+        return new Promise((reslove,reject)=>{
+            var string=randomString.generate({
+                charset:'abcdef0123456789fsmyhanusuriymawsanamarvenkey',
+                length:strLength
+            })+Date.now().toString();
+        })        
+    },
+    generateInvoiceNumber(){
+       return new Promise((reslove,reject)=>{
+            var string=randomString.generate({
+                charset:'abcdef0123456789fsmyhanusuriymawsanamarvenkey',
+                length:7
+            })+Date.now().toString();
+        }) 
+    }
 }

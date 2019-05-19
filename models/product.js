@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       noOfItems:{
         type:DataTypes.INTEGER,
       },
-      noOfItemsLeft:{
+      noOfItemsSold:{
         type:DataTypes.INTEGER,
       },
   }, {});
