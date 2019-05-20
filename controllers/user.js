@@ -29,4 +29,9 @@ module.exports = {
         res.status(200).json({message:"User logged successfully!",user:this.user,token:token,status:200});
       }).catch(error=>res.status(201).json({error:error.message,status:201}));;
     },
+    getRandomNumber(req,res){
+      authHelper.getRandomString(4).then(result=>{
+          res.status(200).json({randomNumber:result,status:200})  
+      })
+    },
   };

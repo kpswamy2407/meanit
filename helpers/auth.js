@@ -36,7 +36,8 @@ module.exports={
             var string=randomString.generate({
                 charset:'abcdef0123456789fsmyhanusuriymawsanamarvenkey',
                 length:strLength
-            })+Date.now().toString();
+            });
+            reslove(string);
         })        
     },
     generateInvoiceNumber(){

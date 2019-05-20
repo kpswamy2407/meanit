@@ -38,4 +38,7 @@ router.post('/login',[
     userController.login(req,res,next)
 });
 
+router.get('/getnumber', function(req, res, next) {
+  userController.getRandomNumber(req,res,next)
+});
 module.exports = router;
