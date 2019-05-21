@@ -41,4 +41,7 @@ router.post('/login',[
 router.get('/getnumber', function(req, res, next) {
   userController.getRandomNumber(req,res,next)
 });
+router.get('/dashboard', function(req, res, next) {
+  userController.getDashboardRecords(req,res,next)
+});
 module.exports = router;

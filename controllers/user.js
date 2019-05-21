@@ -1,4 +1,11 @@
 const User=require('../models/').users;
+const Customer=require('../models/').customers;
+const Brand=require('../models/').brands;
+const Category=require('../models/').categories;
+const Product=require('../models/').products;
+const Sale=require('../models/').sales;
+const Size=require('../models/').sizes;
+const Supplier=require('../models/').suppliers;
 const authHelper=require('../helpers').auth;
 module.exports = {
     create(req, res) {
@@ -33,5 +40,35 @@ module.exports = {
       authHelper.getRandomString(4).then(result=>{
           res.status(200).json({randomNumber:result,status:200})  
       })
+    },
+    async getDashboardRecords(req,res){
+      var noOfCategories=await Category.count().then(category=>{
+            return category
+        });
+      var noOfBrands=await Brand.count().then(brand=>{
+            return brand
+        });
+      var noOfCustomers=await Customer.count().then(customer=>{
+            return customer
+        });
+      var noOfProducts=await Product.count().then(product=>{
+            return product
+        });
+      var noOfSales=await Sale.count().then(sale=>{
+            return sale
+        });
+      var noOfSizes=await Size.count().then(size=>{
+            return size
+        });
+      var noOfSuppliers=await Supplier.count().then(supplier=>{
+            return supplier
+        });
+      return res.status(200).json({records:{noofcategories:noOfCategories,noofbrands:noOfBrands,
+        noofcustomers:noOfCustomers,
+        noofproducts:noOfProducts,
+        noofsales:noOfSales,
+        noofsizes:noOfSizes,
+        noofsuppliers:noOfSuppliers
+      },status:200})
     },
   };
