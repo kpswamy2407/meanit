@@ -89,5 +89,18 @@ module.exports = {
         }
       }).then(result=>res.status(200).json({sale:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
+    },
+    getRecent(req,res){
+      return Sale.findAll({
+      limit: 5,
+       include:[
+            {model:Customer,required:true,attributes:['id','name','mobile']}
+        ],
+        order: [
+            ['id', 'DESC'],
+        ]
+      }).then(result=>res.status(200).json({sales:result,message:"Sales listed successfully!",status:200}))
+      .catch(error => res.status(201).json({error:error.message,status:201}));
+      
     }
 };

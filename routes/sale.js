@@ -19,5 +19,5 @@ router.post('/update/:id',saleController.update);
 router.get('/delete/:id',saleController.delete);
 router.get('/get/:id',saleController.getSale);
 router.get('/getall',saleController.getAll);
-
+router.get('/recent',saleController.getRecent);
 module.exports = router;
