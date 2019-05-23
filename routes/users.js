@@ -44,4 +44,7 @@ router.get('/getnumber', function(req, res, next) {
 router.get('/dashboard', function(req, res, next) {
   userController.getDashboardRecords(req,res,next)
 });
+router.post('/changePassword',(req,res,next)=>{
+  userController.changePassword(req,res,next)
+});
 module.exports = router;

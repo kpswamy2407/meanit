@@ -7,6 +7,7 @@ const Sale=require('../models/').sales;
 const Size=require('../models/').sizes;
 const Supplier=require('../models/').suppliers;
 const authHelper=require('../helpers').auth;
+const Op=require('sequelize').Op;
 module.exports = {
     create(req, res) {
      authHelper.getMd5(req.body.password).then(hashedPassword=>{
@@ -34,7 +35,7 @@ module.exports = {
         return authHelper.getJwtToken(user.email)
       }).then(token=>{
         res.status(200).json({message:"User logged successfully!",user:this.user,token:token,status:200});
-      }).catch(error=>res.status(201).json({error:error.message,status:201}));;
+      }).catch(error=>res.status(201).json({error:error.message,status:201}));
     },
     getRandomNumber(req,res){
       authHelper.getRandomString(4).then(result=>{
@@ -71,4 +72,31 @@ module.exports = {
         noofsuppliers:noOfSuppliers
       },status:200})
     },
+    changePassword(req,res){
+      authHelper.getMd5(req.body.password).then(hashedPassword=>{
+        return User.findOne({where:{id:req.body.id,password:hashedPassword}})
+      }).then(user=>{
+        if(!user){
+          throw new Error("Invalid old password");
+        }
+        if(req.body.new_password!=req.body.confirm_password){
+          throw new Error("New password and confirm password mismatched"); 
+        }
+        authHelper.getMd5(req.body.new_password).then(hashedPassword=>{
+          return User.update({
+            password:hashedPassword,
+          },
+          {
+            where:{
+              id:{
+                [Op.eq]:req.body.id
+              }
+            }
+          }).then(result=>res.status(200).json({message:"Password updated successfully!",status:200}))
+        })
+        
+      }).catch(error=>{
+        res.status(201).json({error:error.message,status:201});
+      })
+    }
   };
