@@ -44,25 +44,26 @@ module.exports = {
         });
         var code=this.generateProductCode(categoryCode,brandCode,sizeCode,supplierCode);
         
-      return Product
-      .create({
-        code: code,
-        name: req.body.name,
-        supplierId:req.body.supplierId,
-        brandId:req.body.brandId,
-        sizeId:req.body.sizeId,
-        categoryId:req.body.categoryId,
-        buyingPrice:req.body.buyingPrice,
-        sellingPrice:req.body.sellingPrice,
-        noOfItems:req.body.noOfItems
-      })
-      .then(product => res.status(200).json({product:product,message:"Product created successfully!",status:200}))
-      .catch(error => res.status(201).json({error:error.message,status:201}));
-      
+        return Product
+        .create({
+            code: code,
+            name: req.body.name,
+            supplierId:req.body.supplierId,
+            brandId:req.body.brandId,
+            sizeId:req.body.sizeId,
+            categoryId:req.body.categoryId,
+            buyingPrice:req.body.buyingPrice,
+            sellingPrice:req.body.sellingPrice,
+            mrp:req.body.mrp,
+            noOfItems:req.body.noOfItems
+        })
+        .then(product => res.status(200).json({product:product,message:"Product created successfully!",status:200}))
+        .catch(error => res.status(201).json({error:error.message,status:201}));
+        
     },
     async update(req,res){
         var self=this;
-        console.log(req.body);
+        
         var categoryCode=await Category.findOne({
             where:{
                 id:{
@@ -102,70 +103,76 @@ module.exports = {
         var code=categoryCode+"_"+brandCode+"_"+sizeCode+"_"+supplierCode;
 
        // console.log(code);
-      return Product.
-        update({
-            code: code,
-            name: req.body.name,
-            supplierId:req.body.supplierId,
-            brandId:req.body.brandId,
-            sizeId:req.body.sizeId,
-            categoryId:req.body.categoryId,
-            buyingPrice:req.body.buyingPrice,
-            sellingPrice:req.body.sellingPrice,
-            noOfItems:req.body.noOfItems
-        },
-        {
-          where:{
-            id:{
-              [Op.eq]:req.params.id
-            }
-        }
-      }).then(result=>res.status(200).json({message:"Product updated successfully!",status:200}))
-      .catch(error => res.status(201).json({error:error.message,status:201}));
+       return Product.
+       update({
+        code: code,
+        name: req.body.name,
+        supplierId:req.body.supplierId,
+        brandId:req.body.brandId,
+        sizeId:req.body.sizeId,
+        categoryId:req.body.categoryId,
+        buyingPrice:req.body.buyingPrice,
+        sellingPrice:req.body.sellingPrice,
+        mrp:req.body.mrp,
+        noOfItems:req.body.noOfItems
     },
-    delete(req,res){
+    {
+      where:{
+        id:{
+          [Op.eq]:req.params.id
+      }
+  }
+}).then(result=>res.status(200).json({message:"Product updated successfully!",status:200}))
+       .catch(error => res.status(201).json({error:error.message,status:201}));
+   },
+   delete(req,res){
       return Product.destroy({
         where:{
           id:{
             [Op.eq]:req.params.id
-          }
         }
-      }).then(result=>res.status(200).json({message:"Product deleted successfully!",status:200}))
+    }
+}).then(result=>res.status(200).json({message:"Product deleted successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
-    },
-    getAll(req,res){
+  },
+  getAll(req,res){
       return Product.findAll({
         include:[
-            {model:Supplier,required:true,attributes:['id','name','code']},
-            {model:Category,required:true,attributes:['id','name','code']},
-            {model:Brand,required:true,attributes:['id','name','code']},
-            {model:Size,required:true,attributes:['id','name']}
+        {model:Supplier,required:true,attributes:['id','name','code']},
+        {model:Category,required:true,attributes:['id','name','code']},
+        {model:Brand,required:true,attributes:['id','name','code']},
+        {model:Size,required:true,attributes:['id','name']}
         ]
-        }).then(result=>res.status(200).json({products:result,message:"Product updated successfully!",status:200}))
+    }).then(result=>res.status(200).json({products:result,message:"Product updated successfully!",status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
-    },
-    getProduct(req,res){
+  },
+  getProduct(req,res){
       return Product.findOne({
         where:{
           id:{
             [Op.eq]:req.params.id
-          }
         }
-      }).then(result=>res.status(200).json({product:result,status:200}))
+    }
+}).then(result=>res.status(200).json({product:result,status:200}))
       .catch(error => res.status(201).json({error:error.message,status:201}));
-    },
-    getProductByCode(req,res){
-        return Product.findOne({
-        where:{
+  },
+  getProductByCode(req,res){
+    return Product.findOne({
+       include:[
+       {model:Supplier,required:true,attributes:['id','name','code']},
+       {model:Category,required:true,attributes:['id','name','code']},
+       {model:Brand,required:true,attributes:['id','name','code']},
+       {model:Size,required:true,attributes:['id','name']}
+       ],
+       where:{
           code:{
             [Op.eq]:req.params.code
-          }
         }
-      }).then(result=>res.status(200).json({product:result,status:200}))
-      .catch(error => res.status(201).json({error:error.message,status:201}));
-    },
-    generateProductCode(category,brand,size,supplier){
-        console.log("Hllerehe")
-        return category+"_"+brand+"_"+size+"_"+supplier
     }
+}).then(result=>res.status(200).json({product:result,status:200}))
+    .catch(error => res.status(201).json({error:error.message,status:201}));
+},
+generateProductCode(category,brand,size,supplier){
+    return category+"_"+brand+"_"+size+"_"+supplier
+}
 };

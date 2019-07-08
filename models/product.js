@@ -50,6 +50,9 @@ module.exports = (sequelize, DataTypes) => {
       sellingPrice:{
         type:DataTypes.DECIMAL,
       },
+       mrp:{
+        type:DataTypes.DECIMAL,
+      },
       noOfItems:{
         type:DataTypes.INTEGER,
       },
